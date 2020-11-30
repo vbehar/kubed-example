@@ -1,0 +1,34 @@
+build:
+  backend: {}
+  webapp: {}
+  devops: {}
+  e2e-tests: {}
+test:
+  "backend-units":
+    container:
+      image: backend
+      command: ["sh", "-c", "env; echo Tests passed!"]
+
+  "webapp-units":
+    container:
+      image: webapp
+      command: ["sh", "-c", "env; echo Tests passed!"]
+
+  "end-to-end":
+    usesDeployedStack: true
+    container:
+      image: e2e-tests
+
+deploy:
+  stack:
+    container:
+      image: devops
+      command: ["./deploy"]
+
+clusterSecret: ${CLUSTER_SECRET}
+testClusterSecret: ${TEST_CLUSTER_SECRET}
+
+defaultParams:
+  DNS_DOMAIN: toc.systems
+  CLUSTER_SECRET: /kubed-test-org-github/toc-cluster
+  TEST_CLUSTER_SECRET: /kubed-test-org-github/toc-cluster

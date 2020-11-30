@@ -1,0 +1,14 @@
+#!/bin/ash
+
+NAMESPACE=${SYSTEM_NAME}-${INSTANCE}
+
+if [ "$DESTROY" = "1" ]; then
+	echo "Destroying namespace $NAMESPACE"
+	kubectl delete ns $NAMESPACE
+else
+	echo "Deploying to namespace $NAMESPACE"
+	kubectl create ns $NAMESPACE
+	cat manifests/*.yaml | envsubst
+	cat manifests/*.yaml | envsubst | kubectl apply -f -
+fi
+

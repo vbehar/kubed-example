@@ -1,0 +1,71 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  namespace: ${SYSTEM_NAME}-${INSTANCE}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+        - name: webapp
+          image: ${WEBAPP_IMAGE}
+          env:
+            - name: BACKEND_URL
+              value: https://backend.${DNS_DOMAIN}
+            - name: GREETING
+              value: ${GREETING}
+          ports:
+            - containerPort: 8080
+              name: web
+              protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+  namespace: ${SYSTEM_NAME}-${INSTANCE}
+  labels:
+    app.kubernetes.io/name: webapp
+    app.kubernetes.io/part-of: ${SYSTEM_NAME}
+    app.kubernetes.io/instance: ${INSTANCE}
+spec:
+  ports:
+    - name: web
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: webapp
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "true"
+  name: webapp
+  namespace: ${SYSTEM_NAME}-${INSTANCE}
+  labels:
+    app.kubernetes.io/name: webapp
+    app.kubernetes.io/part-of: ${SYSTEM_NAME}
+    app.kubernetes.io/instance: ${INSTANCE}
+spec:
+  rules:
+    - host: ${SYSTEM_NAME}-${INSTANCE}-webapp.${DNS_DOMAIN}
+      http:
+        paths:
+          - backend:
+              serviceName: webapp
+              servicePort: 80
+            path: /
+  tls:
+    - {}
