@@ -6,7 +6,7 @@ let context: BrowserContext
 let page: Page
 
 const webappUrl = `http://${process.env.WEBAPP_HOSTNAME}` 
-const greeting = `Hello ${process.env.GREETING || 'unknown'}!` 
+const greeting =  'Hello kubed'//`Hello ${process.env.GREETING || 'unknown'}!` 
 
 
 describe('Webapp', () => {
