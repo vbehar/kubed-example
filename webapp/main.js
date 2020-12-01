@@ -14,8 +14,7 @@ const requestListener = function (req, res) {
         <style>
           body {
             padding: 24px;
-            // Uncomment the following line to colors
-            // color: ${process.env.COLOR || 'initial'}
+            // color: ${process.env.COLOR || 'blue'};
           }
         </style>
       </head>
