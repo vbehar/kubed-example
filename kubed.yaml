@@ -25,10 +25,8 @@ deploy:
       image: devops
       command: ["./deploy"]
 
-clusterSecret: ${CLUSTER_SECRET}
-testClusterSecret: ${TEST_CLUSTER_SECRET}
+clusterSecret: ${KUBED_VAULT}/demo-cluster
+testClusterSecret: ${KUBED_VAULT}/demo-cluster
 
 defaultParams:
-  DNS_DOMAIN: toc.systems
-  CLUSTER_SECRET: /kubed-test-org-github/toc-cluster
-  TEST_CLUSTER_SECRET: /kubed-test-org-github/toc-cluster
+  DNS_DOMAIN: demo-cluster.kubed.delivery
