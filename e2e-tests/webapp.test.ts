@@ -24,9 +24,6 @@ describe('Webapp', () => {
   })
   
   it('should display the correct message', async () => {
-
-    
-    
     await page.goto(webappUrl);
     
     const preElement = await page.waitForSelector('//body/p')
