@@ -22,6 +22,8 @@ spec:
               value: https://backend.${DNS_DOMAIN}
             - name: GREETING
               value: ${GREETING}
+            - name: COLOR
+              value: ${COLOR}
           ports:
             - containerPort: 8080
               name: web
